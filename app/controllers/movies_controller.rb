@@ -22,7 +22,7 @@ class MoviesController < ApplicationController
     end
     
     @all_ratings = Movie.all_ratings
-    @get_rating = params[:ratings] or session[:ratings] or {}
+    @get_rating = params[:ratings] || session[:ratings] || {}
     
     if @get_rating == {}
       @get_rating = Hash[@all_ratings.map {|rating| [rating, rating]}]
@@ -30,7 +30,9 @@ class MoviesController < ApplicationController
     
     if params[:sort] != session[:sort]
       session[:sort] = params[:sort]
-    elsif params[:ratings] != session[:ratings]
+    end
+    
+    if params[:ratings] != session[:ratings]
       session[:ratings] = params[:ratings]
     end
     
