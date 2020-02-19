@@ -11,15 +11,15 @@ class MoviesController < ApplicationController
   end
 
   def index
-    #@movies = Movie.order(params[:sort])
-    temp = params[:sort] or session[:sort]
-    if temp == 'title'
-      @para_title = 'hilite'
-      opath = {:title => :asc}
-    elsif temp == 'release_date'
-      opath = {:release_date => :asc}
-      @para_release = 'hilite'
+    # @movies = Movie.order(params[:sort])
+    
+    case params[:sort] || session[:sort]
+    when 'title'
+      opath,@para_title ={:title => :asc}, 'hilite'
+    when 'release_date'
+      opath,@para_release ={:release_date => :asc}, 'hilite'
     end
+    
     
     @all_ratings = Movie.all_ratings
     @get_rating = params[:ratings] or {} or session[:ratings]
