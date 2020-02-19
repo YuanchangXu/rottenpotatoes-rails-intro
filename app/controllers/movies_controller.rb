@@ -26,6 +26,8 @@ class MoviesController < ApplicationController
     if @get_rating == {}
       @get_rating = Hash[@all_ratings.map {|rating| [rating, rating]}]
     end
+    
+    @movies = Movie.where(rating: @get_rating.keys).order(opath)
       
   end
 
