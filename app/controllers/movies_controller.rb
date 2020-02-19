@@ -11,7 +11,22 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.order(params[:sort])
+    #@movies = Movie.order(params[:sort])
+    temp = params[:sort]
+    if temp == 'title'
+      @para_title = 'hilite'
+      opath = {:title => :asc}
+    elsif temp == 'release_date'
+      opath = {:release_date => :asc}
+      @para_release = 'hilite'
+    end
+    
+    @all_ratings = Movie.all_ratings
+    @get_rating = params[:ratings] or {}
+    if @get_rating == {}
+      @get_rating = Hash[@all_ratings.map {|rating| [rating, rating]}]
+    end
+      
   end
 
   def new
