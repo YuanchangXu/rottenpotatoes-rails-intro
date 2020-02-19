@@ -27,7 +27,7 @@ class MoviesController < ApplicationController
       @get_rating = Hash[@all_ratings.map {|rating| [rating, rating]}]
     end
     
-    @movies = Movie.where(rating: @get_rating.keys).order(opath)
+    @movies = Movie.where(rating: @get_rating.keys).order(params[:sort])
       
   end
 
