@@ -12,7 +12,7 @@ class MoviesController < ApplicationController
 
   def index
     #@movies = Movie.order(params[:sort])
-    temp = params[:sort]
+    temp = params[:sort] or session[:sort]
     if temp == 'title'
       @para_title = 'hilite'
       opath = {:title => :asc}
@@ -22,12 +22,18 @@ class MoviesController < ApplicationController
     end
     
     @all_ratings = Movie.all_ratings
-    @get_rating = params[:ratings] or {}
+    @get_rating = params[:ratings] or {} or session[:ratings]
     if @get_rating == {}
       @get_rating = Hash[@all_ratings.map {|rating| [rating, rating]}]
     end
     
-    @movies = Movie.where(rating: @get_rating.keys).order(params[:sort])
+    if params[:sort] != session[:sort]
+      session[:sort] = params[:sort]
+    elsif params[:ratings] != session[:ratings]
+      session[:ratings] = params[:ratings]
+    end
+    
+    @movies = Movie.where(rating: @get_rating.keys).order(opath)
       
   end
 
